@@ -134,7 +134,10 @@
       });
 
       clear.addEventListener("click", () => {
-        dt.clear();
+        const b = confirm("Are you sure to clear?");
+        if (b) {
+          dt.clear();
+        }
       });
 
       eraser.addEventListener("click", () => {
