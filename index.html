@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, maximum-scale=.5" />
+    <title>Drawing Tablet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="canvas-container">
+      <div class="dt-control-container">
+        <div class="dt-tools-container">
+          <img src="./assets/pencile.svg" title="Brush" id="brush" alt="" />
+        </div>
+        <div class="dt-tools-container">
+          <img src="./assets/eraser.png" title="Eraser" id="eraser" alt="" />
+        </div>
+        <div class="dt-tools-container">
+          <img src="./assets/clear-all.png" title="clear" id="clear" alt="" />
+        </div>
+        <input type="number" min="1" max="100" id="size" value="3" />
+
+        <div class="dt-dc-container">
+          <div class="dt-default-colors" data-color="#000000">
+            <div></div>
+          </div>
+          <div class="dt-default-colors" data-color="#f24822">
+            <div></div>
+          </div>
+          <div class="dt-default-colors" data-color="#ffa629">
+            <div></div>
+          </div>
+          <div class="dt-default-colors" data-color="#ffcd29">
+            <div></div>
+          </div>
+          <div class="dt-default-colors" data-color="#14ae5c">
+            <div></div>
+          </div>
+          <div class="dt-default-colors" data-color="#0d99ff">
+            <div></div>
+          </div>
+          <div class="dt-default-colors" data-color="#9747ff">
+            <div></div>
+          </div>
+        </div>
+
+        <div class="dt-cp-container">
+          <label for="dtPicker" class="dt-color-picker">
+            <input
+              id="dtPicker"
+              type="color"
+              style="visibility: hidden; opacity: 0; width: 0; height: 0"
+            />
+          </label>
+        </div>
+
+        <div class="dt-undo-redo-container">
+          <div class="">
+            <img
+              src="./assets/undo.png"
+              title="Undo (Ctrl + Z)"
+              id="undo"
+              alt=""
+            />
+          </div>
+          <div class="">
+            <img
+              src="./assets/redo.png"
+              title="Redo (Ctrl + Y)"
+              id="redo"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="dt-download-container">
+          <img
+            src="./assets/download.png"
+            title="Download (Ctrl + E)"
+            id="download"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+    <script src="lib/DrawingTablet.js"></script>
+    <script>
+      const dt = new DrawingTablet("#canvas-container", {
+        logs: true,
+        fullscreen: true,
+        brushSize: 5,
+        bg: "#ffffff",
+        autosave: true,
+      });
+
+      dt.log("Drawing Tablet Initialized");
+      console.log(dt);
+
+      dt.brushSize = parseInt(size.value);
+
+      const dcs = document.querySelectorAll(".dt-default-colors");
+      const dcp = document.querySelectorAll(".dt-cp-container");
+
+      dcs.forEach((e) => {
+        e.children[0].style.background = e.dataset.color;
+        selectColor();
+        e.addEventListener("click", () => {
+          dt.brushColor = e.dataset.color;
+          selectColor();
+        });
+      });
+      function selectColor() {
+        dcs.forEach((el) => {
+          el.style.border = `2px solid  ${
+            dt.brushColor === el.dataset.color
+              ? el.dataset.color
+              : "transparent"
+          }`;
+        });
+      }
+      dtPicker.oninput = (e) => {
+        dt.brushColor = e.target.value;
+        selectColor();
+      };
+      download.addEventListener("click", () => {
+        dt.download();
+      });
+      undo.addEventListener("click", () => {
+        dt.undo();
+      });
+
+      redo.addEventListener("click", () => {
+        dt.redo();
+      });
+
+      clear.addEventListener("click", () => {
+        dt.clear();
+      });
+
+      eraser.addEventListener("click", () => {
+        dt.brushSize = 20;
+        dt.brushColor = dt.opts.bg;
+      });
+      size.addEventListener("input", (e) => {
+        dt.brushSize = parseInt(e.target.value);
+      });
+    </script>
+  </body>
+</html>
