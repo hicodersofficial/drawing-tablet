@@ -1,5 +1,7 @@
 # Drawing Tablet
 
+![Preview](preview.png)
+
 A simple and fast way to implement scribble in your projects!
 
 ## CND
