@@ -19,18 +19,20 @@ body {
   transform: translateX(-50%);
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
-  border: 1px solid #c6c6c6;
-  background: #f1f1f1;
+  border: 1px solid #404040;
+  border-bottom: 1px solid transparent;
+  background: #222222;
   display: flex;
   align-items: center;
   padding: 12px;
 }
 .dt-dc-container {
-  border-left: 1px solid #dcdcdc;
-  border-right: 1px solid #dcdcdc;
+  border-left: 1px solid #404040;
+  border-right: 1px solid #404040;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 0.4rem;
 }
 .dt-default-colors {
   position: relative;
@@ -59,6 +61,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 0.4rem;
 }
 .dt-color-picker {
   width: 24px;
@@ -94,20 +97,27 @@ body {
 .dt-tools-container img {
   position: absolute;
   max-height: 70px;
-  bottom: -28px;
+  bottom: -25px;
   transition: all 0.2s;
   cursor: pointer;
 }
 
 .dt-tools-container img:hover {
-  bottom: -5px;
-  transform: scale(1.2);
+  bottom: -10px;
+  opacity: 0.8;
+  transform: scale(1.1);
 }
 #size {
-  width: 30px;
-  height: 25px;
+  width: 35px;
+  height: 30px;
+  margin: 0 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background: #3d3d3d;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
   -moz-appearance: textfield;
-  margin: 0;
 }
 #size::-webkit-outer-spin-button,
 #size::-webkit-inner-spin-button {
@@ -118,7 +128,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid #dcdcdc;
+  border-left: 1px solid #404040;
   padding: 0 0.8rem;
 }
 
@@ -127,7 +137,7 @@ body {
   cursor: pointer;
 }
 .dt-download-container {
-  border-left: 1px solid #dcdcdc;
+  border-left: 1px solid #404040;
   padding: 0 0.8rem;
 }
 .dt-download-container img {

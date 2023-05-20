@@ -28,7 +28,7 @@ const dt = new DrawingTablet("#canvas-container", {
 });
 ```
 
-Setter Methods
+**Setter Methods**
 
 ```
 dt.bg = "color"
@@ -36,16 +36,17 @@ dt.brushSize = number
 dt.brushColor = "color"
 ```
 
-Getter Methods
+**Getter Methods**
 
 ```
 dt.brushColor
+dt.brushSize
 dt.opts
 dt.ctx
 dt.canvas
 ```
 
-Public Method
+**Public Method**
 
 ```
 dt.log()

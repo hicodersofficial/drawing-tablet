@@ -16,13 +16,13 @@
         <div class="dt-tools-container">
           <img src="./assets/eraser.png" title="Eraser" id="eraser" alt="" />
         </div>
-        <div class="dt-tools-container">
+        <div class="dt-tools-container" style="margin-right: 0.8rem">
           <img src="./assets/clear-all.png" title="clear" id="clear" alt="" />
         </div>
         <input type="number" min="1" max="100" id="size" value="3" />
 
         <div class="dt-dc-container">
-          <div class="dt-default-colors" data-color="#000000">
+          <div class="dt-default-colors" data-color="#ffffff">
             <div></div>
           </div>
           <div class="dt-default-colors" data-color="#f24822">
@@ -85,17 +85,23 @@
     </div>
     <script src="lib/DrawingTablet.js"></script>
     <script>
+      let isBrush = true;
+      let opts = {
+        brushColor: "#ffffff",
+        brushSize: parseInt(size.value),
+      };
+
+      // Initializing Drawing Tablet
       const dt = new DrawingTablet("#canvas-container", {
         logs: true,
         fullscreen: true,
-        brushSize: 5,
-        bg: "#ffffff",
+        brushSize: opts.brushSize,
+        bg: "#181818",
+        color: opts.brushColor,
         autosave: true,
       });
 
       dt.log("Drawing Tablet Initialized");
-
-      dt.brushSize = parseInt(size.value);
 
       const dcs = document.querySelectorAll(".dt-default-colors");
       const dcp = document.querySelectorAll(".dt-cp-container");
@@ -104,34 +110,37 @@
         e.children[0].style.background = e.dataset.color;
         selectColor();
         e.addEventListener("click", () => {
-          dt.brushColor = e.dataset.color;
+          if (isBrush) {
+            dt.brushColor = e.dataset.color;
+            opts.brushColor = e.dataset.color;
+          } else {
+            opts.brushColor = e.dataset.color;
+          }
           selectColor();
         });
       });
       function selectColor() {
         dcs.forEach((el) => {
           el.style.border = `2px solid  ${
-            dt.brushColor === el.dataset.color
+            opts.brushColor === el.dataset.color
               ? el.dataset.color
               : "transparent"
           }`;
         });
       }
-      dtPicker.oninput = (e) => {
+      dtPicker.addEventListener("input", (e) => {
         dt.brushColor = e.target.value;
         selectColor();
-      };
+      });
       download.addEventListener("click", () => {
         dt.download();
       });
       undo.addEventListener("click", () => {
         dt.undo();
       });
-
       redo.addEventListener("click", () => {
         dt.redo();
       });
-
       clear.addEventListener("click", () => {
         const b = confirm("Are you sure to clear?");
         if (b) {
@@ -140,12 +149,36 @@
       });
 
       eraser.addEventListener("click", () => {
-        dt.brushSize = 20;
+        isBrush = false;
+        opts = {
+          brushColor: dt.brushColor,
+          brushSize: dt.brushSize,
+        };
+        dt.brushSize = 40;
         dt.brushColor = dt.opts.bg;
+        isSelected();
       });
+
       size.addEventListener("input", (e) => {
         dt.brushSize = parseInt(e.target.value);
       });
+
+      brush.addEventListener("click", () => {
+        isBrush = true;
+        dt.brushSize = opts.brushSize;
+        dt.brushColor = opts.brushColor;
+        isSelected();
+      });
+
+      function isSelected() {
+        if (isBrush) {
+          document.querySelector("#brush").style.bottom = "-10px";
+          document.querySelector("#eraser").style.bottom = "-25px";
+        } else {
+          document.querySelector("#brush").style.bottom = "-25px";
+          document.querySelector("#eraser").style.bottom = "-10px";
+        }
+      }
     </script>
   </body>
 </html>
