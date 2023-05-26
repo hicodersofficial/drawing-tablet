@@ -49,7 +49,11 @@ dt.canvas
 **Public Method**
 
 ```
-dt.log()
+dt.pencil()
+dt.highlighter()
+dt.eraser()
+
+dt.log(message)
 dt.redraw()
 dt.clearOnlyScreen()
 dt.clear()
@@ -59,6 +63,23 @@ dt.save()
 dt.clearSaved()
 dt.drawFromSaved()
 dt.download(filename?)
+```
+
+### Example
+
+```js
+dt.pencil();
+dt.brushSize = 20;
+dt.brushColor = "#ffcd29";
+```
+
+```js
+dt.highlighter();
+dt.brushColor = "#ffcd29";
+```
+
+```js
+dt.eraser();
 ```
 
 ### [See Live Preview](https://drawingtablet.netlify.app)
