@@ -11,7 +11,15 @@
     <div id="canvas-container">
       <div class="dt-control-container">
         <div class="dt-tools-container">
-          <img src="./assets/pencil.svg" title="Brush" id="brush" alt="" />
+          <img src="./assets/pencil.svg" title="Brush" id="pencil" alt="" />
+        </div>
+        <div class="dt-tools-container">
+          <img
+            src="./assets/highlighter.svg"
+            title="Highlighter"
+            id="highlighter"
+            alt=""
+          />
         </div>
         <div class="dt-tools-container">
           <img src="./assets/eraser.png" title="Eraser" id="eraser" alt="" />
@@ -85,7 +93,6 @@
     </div>
     <script src="lib/DrawingTablet.js"></script>
     <script>
-      let isBrush = true;
       let opts = {
         brushColor: "#ffffff",
         brushSize: parseInt(size.value),
@@ -110,12 +117,8 @@
         e.children[0].style.background = e.dataset.color;
         selectColor();
         e.addEventListener("click", () => {
-          if (isBrush) {
-            dt.brushColor = e.dataset.color;
-            opts.brushColor = e.dataset.color;
-          } else {
-            opts.brushColor = e.dataset.color;
-          }
+          dt.brushColor = e.dataset.color;
+          opts.brushColor = e.dataset.color;
           selectColor();
         });
       });
@@ -148,37 +151,44 @@
         }
       });
 
-      eraser.addEventListener("click", () => {
-        isBrush = false;
-        opts = {
-          brushColor: dt.brushColor,
-          brushSize: dt.brushSize,
-        };
-        dt.brushSize = 40;
-        dt.brushColor = dt.opts.bg;
-        isSelected();
-      });
-
       size.addEventListener("input", (e) => {
         dt.brushSize = parseInt(e.target.value);
       });
 
-      brush.addEventListener("click", () => {
-        isBrush = true;
-        dt.brushSize = opts.brushSize;
+      pencil.addEventListener("click", () => {
+        dt.pencil();
+        dt.brushSize = parseInt(size.value);
         dt.brushColor = opts.brushColor;
         isSelected();
       });
 
+      highlighter.addEventListener("click", () => {
+        dt.highlighter();
+        dt.brushColor = opts.brushColor;
+        isSelected();
+      });
+
+      eraser.addEventListener("click", () => {
+        dt.eraser();
+        isSelected();
+      });
+
       function isSelected() {
-        if (isBrush) {
-          document.querySelector("#brush").style.bottom = "-10px";
+        if (dt.brushType === type.pencil) {
+          document.querySelector("#pencil").style.bottom = "-10px";
+          document.querySelector("#highlighter").style.bottom = "-25px";
           document.querySelector("#eraser").style.bottom = "-25px";
-        } else {
-          document.querySelector("#brush").style.bottom = "-25px";
+        } else if (dt.brushType === type.eraser) {
+          document.querySelector("#pencil").style.bottom = "-25px";
+          document.querySelector("#highlighter").style.bottom = "-25px";
           document.querySelector("#eraser").style.bottom = "-10px";
+        } else if (dt.brushType === type.highlighter) {
+          document.querySelector("#highlighter").style.bottom = "-10px";
+          document.querySelector("#pencil").style.bottom = "-25px";
+          document.querySelector("#eraser").style.bottom = "-25px";
         }
       }
+      isSelected();
     </script>
   </body>
 </html>
